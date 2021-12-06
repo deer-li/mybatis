@@ -1,0 +1,88 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--具体分映射文件-->
+<!--namespace一般是dao层类的全路径名-->
+<mapper namespace="com.deer.dao.impl.BookDaoImpl">
+    <!--resultType属性：指定返回值类型
+        id属性：与dao层实现类方法名保持一致
+    -->
+    <!--使用sql标签抽取公共字段-->
+    <sql id="commonFeild">
+        id,bookName
+    </sql>
+    <select id="selectBooks" resultType="java.util.Map">
+        select
+        <include refid="commonFeild"/>
+        from books
+    </select>
+    <!--#取值可以防止sql注入，&不行，虽然二者都可以做取值符号，
+    #取值会自动将取出的数据看成字符串处理，而且自动添加单引号
+    $取值时，将参数当作普通文本处理，不添加任何的单引号-->
+    <!--模糊查询-->
+    <select id="selectMuHu" resultType="map" parameterType="Map">
+        <!--select * from books where bookName like '%${bookName}%' and num>#{num}-->
+        select * from books where bookName like CONCAT('%',#{bookName},'%') and num>#{num}
+    </select>
+    <!--单个参数-->
+    <select id="selectOne" resultType="Map" parameterType="Integer">
+        select * from books where id=#{0}
+    </select>
+    <!--多个参数-->
+    <!--查询取值按照场景分，当在实体类中取值和map集合中取值，那就用#{key}。不然就用#{0}-->
+    <select id="selectTwo" resultType="Map" parameterType="Map">
+        select * from books where bookName=#{bookName} and id&lt;#{id}
+    </select>
+
+    <select id="selectThree" resultType="Map" parameterType="com.deer.pojo.Book">
+        select * from books where bookName=#{bookName} and id&lt;#{id}
+    </select>
+    <!--插入一条数据-->
+    <insert id="insertOne" parameterType="com.deer.pojo.Book">
+        insert into books value (null,#{bookName},#{price},#{num})
+    </insert>
+    <!--修改一条数据-->
+    <update id="updateOne" parameterType="Map">
+        update books set bookName=#{bookName},price=#{price},num=#{num} where id=#{id}
+    </update>
+    <!--删除一条数据-->
+    <delete id="deleteOne" parameterType="book">
+        delete from books where id=#{id}
+    </delete>
+
+    <!--动态查询sql语句 通过where标签和if标签-->
+    <select id="selectDynamic" resultType="map" parameterType="map">
+        select * from computers
+        <where>
+            <if test="brand!=null and brand!=''">
+                brand=#{brand}
+            </if>
+            <if test="startprice!=null and startprice!=''">
+                and price &gt;=#{startprice}
+            </if>
+            <if test="endprice!=null and endprice!=''">
+                and price &lt;=#{endprice}
+            </if>
+        </where>
+    </select>
+    <!--动态修改sql  通过set标签和if标签-->
+    <select id="updateDynamic" parameterType="map" resultType="map">
+        update computers
+        <set>
+            <if test="brand!=null and brand!=''">
+                brand=#{brand},
+            </if>
+            <if test="price!=null and price!=''">
+                price=#{price},
+            </if>
+            id=#{id}
+        </set>
+        where id=#{id}
+    </select>
+
+    <!--实现pageHelper分页-->
+    <select id="selectByPageHelper" resultType="map" parameterType="map">
+            select * from books
+    </select>
+
+</mapper>

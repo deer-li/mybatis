@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--mybatis的主配置文件-->
+<configuration>
+    <!--配置别名-->
+    <typeAliases>
+        <typeAlias type="com.deer.pojo.Book" alias="book"></typeAlias>
+    </typeAliases>
+
+    <!--配置pageHelper拦截器-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"></property>
+        </plugin>
+    </plugins>
+    <!--mybatis配置数据库连接环境-->
+
+    <environments default="p6spy">
+        <environment id="p6spy">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.p6spy.engine.spy.P6SpyDriver"></property>
+                <property name="url"
+                          value="jdbc:p6spy:mysql://localhost:3306/mybatis-info?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"></property>
+                <property name="username" value="root"></property>
+                <property name="password" value="120915"></property>
+            </dataSource>
+        </environment>
+
+
+        <environment id="mysql">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"></property>
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/mybatis-info?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"></property>
+                <property name="username" value="root"></property>
+                <property name="password" value="120915"></property>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com/deer/dao/impl/BookDaoImpl.xml"></mapper>
+        <mapper resource="com/deer/dao/impl/RelationDaoImpl.xml"></mapper>
+    </mappers>
+</configuration>

@@ -1,0 +1,44 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--具体分映射文件-->
+<!--namespace一般是dao层类的全路径名-->
+<mapper namespace="com.deer.dao.impl.RelationDaoImpl">
+    <!---->
+    <resultMap id="Hus" type="com.deer.pojo.Husband">
+        <result property="hid" javaType="Long" column="hid"></result>
+        <result property="hname" javaType="String" column="hname"></result>
+        <result property="age" javaType="String" column="age"></result>
+        <result property="gender" javaType="String" column="gender"></result>
+        <association property="wife" javaType="com.deer.pojo.Wife">
+            <result property="wid" javaType="Long" column="wid"></result>
+            <result property="wname" javaType="String" column="wname"></result>
+            <result property="age" javaType="String" column="age"></result>
+            <result property="gender" javaType="String" column="gender"></result>
+            <result property="hid" javaType="Long" column="hid"></result>
+        </association>
+    </resultMap>
+    <!--一对一的关联关系-->
+    <select id="selectOneToOne" resultMap="Hus" parameterType="String">
+          select * from  husband inner join wife on husband.hid=wife.wid where husband.hname=#{0}
+    </select>
+
+    <resultMap id="Usr" type="com.deer.pojo.User">
+        <result property="id" javaType="Long" column="id"></result>
+        <result property="username" javaType="String" column="username"></result>
+        <result property="phone" javaType="String" column="phone"></result>
+        <result property="address" javaType="String" column="address"></result>
+        <collection property="orderList" ofType="com.deer.pojo.Order" >
+            <result property="orderId" javaType="Long" column="orderId"></result>
+            <result property="remark" javaType="String" column="remark"></result>
+            <result property="orderNo" javaType="String" column="orderNo"></result>
+            <result property="cost" javaType="String" column="cost"></result>
+            <result property="createTime" javaType="Date" column="createTime"></result>
+            <result property="userId" javaType="Long" column="userId"></result>
+        </collection>
+    </resultMap>
+    <!--一对多的关联关系-->
+    <select id="selectOneToMany" resultMap="Usr" parameterType="String">
+          select * from `user` inner join `order` on user.id=order.userId where user.phone=#{0}
+    </select>
+</mapper>

@@ -1,0 +1,5 @@
+1638413228204|0|statement|connection 0|url jdbc:p6spy:mysql://localhost/mybatis-info?useUnicode=true&characterEncoding=utf-8&useSSL=false|select * from books where bookName=? and id<?|select * from books where bookName='spring' and id<2
+1638413248875|0|statement|connection 0|url jdbc:p6spy:mysql://localhost/mybatis-info?useUnicode=true&characterEncoding=utf-8&useSSL=false|select * from books where bookName=? and id<?|select * from books where bookName='spring' and id<2
+1638413501618|0|statement|connection 0|url jdbc:p6spy:mysql://localhost/mybatis-info?useUnicode=true&characterEncoding=utf-8&useSSL=false|select * from books where bookName=? and id<?|select * from books where bookName='spring' and id<2
+1638413637739|0|statement|connection 0|url jdbc:p6spy:mysql://localhost/mybatis-info?useUnicode=true&characterEncoding=utf-8&useSSL=false|select * from books where bookName=? and id<?|select * from books where bookName='spring' and id<2
+1638413668342|0|statement|connection 0|url jdbc:p6spy:mysql://localhost/mybatis-info?useUnicode=true&characterEncoding=utf-8&useSSL=false|select * from books where id=?|select * from books where id=1
